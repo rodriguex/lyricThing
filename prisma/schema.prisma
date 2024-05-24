@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://lyricThing:rootroot@localhost:5432/lyricthing?schema=public"
+}
+
+model user {
+  id              Int      @id @default(autoincrement())
+  first_name      String   @db.VarChar(255)
+  last_name       String   @db.VarChar(255)
+  profile_picture String   @db.Text()
+  email           String   @unique @db.VarChar(255)
+  created_at      DateTime @default(now()) @db.Timestamp(6)
+  Lyric           lyric[]
+}
+
+model artist {
+  id              Int      @id @default(autoincrement())
+  name            String   @unique @db.VarChar(255)
+  profile_picture String   @db.Text()
+  about           String   @db.Text()
+  created_at      DateTime @default(now()) @db.Timestamp(6)
+  Lyric           lyric[]
+}
+
+model lyric {
+  id           Int      @id @default(autoincrement())
+  song_name    String   @db.VarChar(255)
+  released_at  DateTime @db.Date()
+  lyrics       String   @db.Text()
+  artist_id    Int
+  Artist       artist   @relation(fields: [artist_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  posted_by_id Int
+  posted_by    user     @relation(fields: [posted_by_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  created_at   DateTime @default(now()) @db.Timestamp(6)
+  updated_at   DateTime @default(now()) @db.Timestamp(6)
+}
