@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://lyricThing:rootroot@localhost:5432/lyricthing?schema=public"
+  url      = env("DATABASE_URL")
 }
 
 model user {
