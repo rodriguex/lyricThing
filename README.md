@@ -1,6 +1,6 @@
 // TODOS
 
 - [x] Register/Login Users
-- [ ] CRUD Artists
+- [x] CRUD Artists
 - [ ] CRUD Lyrics
 - [ ] Search Bar
