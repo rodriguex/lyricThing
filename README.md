@@ -1,4 +1,4 @@
-// TODOS
+# TODOS
 
 - [x] Register/Login Users
 - [x] CRUD Artists
