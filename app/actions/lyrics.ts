@@ -4,20 +4,22 @@ import { redirect } from "next/navigation";
 import prisma from "../utils/prisma";
 import { revalidatePath } from "next/cache";
 import { Lyric } from "../types";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 export async function createLyric(form: FormData) {
-  // const user = auth();
-  // if (!user?.userId) {
-  //   return;
-  // }
+  const user = auth();
+  if (!user?.userId) {
+    return;
+  }
 
-  // const getLoggedUserId = await prisma.user.findFirst({
-  //   where: { email: "gustardn@gmail.com" },
-  // });
-  // if (!getLoggedUserId) {
-  //   return;
-  // }
+  const loggedInUser = await currentUser();
+
+  const getLoggedUserId = await prisma.user.findFirst({
+    where: { email: loggedInUser?.emailAddresses[0].emailAddress },
+  });
+  if (!getLoggedUserId) {
+    return;
+  }
 
   const lyricId = form.get("id") as string;
   const songName = form.get("songName") as string;
@@ -38,8 +40,7 @@ export async function createLyric(form: FormData) {
     released_at: new Date(releasedAt).toISOString(),
     youtube_link: youtubeLink,
     lyrics,
-    // posted_by_id: getLoggedUserId?.id,
-    posted_by_id: 1,
+    posted_by_id: getLoggedUserId?.id,
     artist_id: parseInt(artistId),
   };
 

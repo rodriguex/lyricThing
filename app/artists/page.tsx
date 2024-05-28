@@ -40,8 +40,10 @@ export default async function Page() {
                 className="flex flex-col items-center gap-3"
               >
                 <div
-                  style={{ backgroundImage: `url(${artist.profile_picture})` }}
-                  className="w-64 h-64 bg-cover bg-center rounded-full"
+                  style={{
+                    backgroundImage: `url('${process.env.NEXT_PUBLIC_BUCKET_URL}/${artist.profile_picture}')`,
+                  }}
+                  className="w-52 h-52 bg-cover bg-center rounded-full"
                 />
                 <span className="text-xl font-bold text-gray-600">
                   {artist.name}

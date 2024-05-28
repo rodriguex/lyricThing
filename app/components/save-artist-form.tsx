@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { Artist } from "../types";
-import { createArtist } from "../actions/artists";
-import UploadButton from "./upload-button";
+import { createArtist, deleteArtistPhoto } from "../actions/artists";
 
 export default function SaveArtistForm({
   updatingArtist,
@@ -15,31 +14,33 @@ export default function SaveArtistForm({
     about: updatingArtist?.about ?? "",
   });
 
-  const [artistPicture, setArtistPicture] = useState(
+  const [artistPicture, setArtistPicture] = useState<any>(
     updatingArtist?.profile_picture ?? ""
   );
 
-  const [isLoading, setIsLoading] = useState(false);
-  const isButtonBlocked = !artist.name || !artist.about || artistPicture === "";
+  const [isLoadingDeletion, setIsLoadingDeletion] = useState(false);
+  const [isLoadingSaving, setIsLoadingSaving] = useState(false);
 
   async function deletePhoto() {
-    setIsLoading(true);
-    const fileId = artistPicture.split("/f/");
-    if (fileId) {
-      await fetch("http://localhost:3000/api/artists/deletePhoto", {
-        method: "POST",
-        body: JSON.stringify({
-          fileId: fileId[1],
-          artistId: updatingArtist?.id,
-        }),
-      });
-      setArtistPicture("");
-      setIsLoading(false);
-    }
+    setIsLoadingDeletion(true);
+    await deleteArtistPhoto({
+      ...artist,
+      id: updatingArtist?.id,
+      profile_picture: artistPicture,
+    });
+    setArtistPicture("");
+    setIsLoadingDeletion(false);
   }
 
   return (
-    <form className="mt-10 flex flex-col gap-8 w-[500px]" action={createArtist}>
+    <form
+      className="mt-10 flex flex-col gap-8 w-[500px]"
+      action={(formData: any) => {
+        setIsLoadingSaving(true);
+        createArtist(formData);
+        setIsLoadingSaving(false);
+      }}
+    >
       <div className="flex flex-col">
         <label htmlFor="name">Name of the Artist</label>
         <input
@@ -52,6 +53,8 @@ export default function SaveArtistForm({
           onChange={(e) => setArtist({ ...artist, name: e.target.value })}
         />
       </div>
+
+      {isLoadingSaving}
 
       <div className="flex flex-col">
         <label htmlFor="about">About the Artist</label>
@@ -70,16 +73,17 @@ export default function SaveArtistForm({
         {artistPicture && (
           <div className="flex flex-col gap-1 mb-10">
             <span>Current profile picture</span>
-            <img
-              src={artistPicture}
-              className="w-48 rounded-lg"
-              alt="Current Profile Picture"
+            <div
+              style={{
+                backgroundImage: `url('${process.env.NEXT_PUBLIC_BUCKET_URL}/${artistPicture}')`,
+              }}
+              className="bg-cover bg-center rounded-full w-[150px] h-[150px]"
             />
             <span
-              className="cursor-pointer text-sm text-red-700"
+              className="cursor-pointer text-sm mt-2 text-red-700"
               onClick={deletePhoto}
             >
-              {isLoading ? "Deleting..." : "Delete Photo"}
+              {isLoadingDeletion ? "Deleting..." : "Delete Photo"}
             </span>
           </div>
         )}
@@ -87,23 +91,20 @@ export default function SaveArtistForm({
         {!artistPicture && (
           <div className="mb-4">
             <span>Add the best picture of this artist</span>
-            <UploadButton setArtistPicture={setArtistPicture} />
+            <input required type="file" name="url" />
           </div>
         )}
       </div>
 
       <input type="hidden" name="id" value={updatingArtist?.id} />
-      <input type="hidden" name="url" value={artistPicture} />
+      <input
+        type="hidden"
+        name="current_profile_picture"
+        value={artistPicture}
+      />
 
-      <button
-        disabled={isButtonBlocked ? true : false}
-        className={`border-2 p-3 rounded-lg font-bold text-lg ${
-          isButtonBlocked
-            ? "bg-gray-100 border-gray-300 hover:bg-gray-100 text-gray-500 cursor-not-allowed"
-            : "bg-black text-white"
-        }`}
-      >
-        Save new Artist!
+      <button className="border-2 p-3 rounded-lg font-bold text-lg bg-black text-white">
+        {isLoadingSaving ? "Saving..." : "Save new Artist"}
       </button>
     </form>
   );

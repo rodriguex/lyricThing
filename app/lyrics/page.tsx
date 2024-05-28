@@ -40,10 +40,13 @@ export default async function Page() {
                 </form>
               </div>
 
-              <Link href={`/lyrics/${lyric.id}`} className="flex flex-col">
+              <Link
+                href={`/lyrics/${lyric.id}`}
+                className="flex flex-col items-center"
+              >
                 <div
                   style={{
-                    backgroundImage: `url(${lyric.artist.profile_picture})`,
+                    backgroundImage: `url('${process.env.NEXT_PUBLIC_BUCKET_URL}/${lyric.artist.profile_picture}')`,
                   }}
                   className="w-48 h-48 bg-cover bg-center rounded-full"
                 />

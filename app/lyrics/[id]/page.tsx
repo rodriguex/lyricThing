@@ -23,7 +23,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     <Content classes="p-10 w-full max-w-[1700px]">
       <div className="flex items-center gap-20">
         <div
-          style={{ backgroundImage: `url(${lyric.artist?.profile_picture})` }}
+          style={{
+            backgroundImage: `url('${process.env.NEXT_PUBLIC_BUCKET_URL}/${lyric?.artist?.profile_picture}')`,
+          }}
           className="w-64 h-64 bg-cover bg-center rounded-full"
         />
         <div>
