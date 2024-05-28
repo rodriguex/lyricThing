@@ -4,10 +4,8 @@ import { Artist } from "@/app/types";
 import prisma from "@/app/utils/prisma";
 
 export default async function Page({
-  _,
   searchParams,
 }: {
-  _: any;
   searchParams: { [key: string]: string | undefined };
 }) {
   let artist: Artist | null = null;
@@ -18,7 +16,7 @@ export default async function Page({
   }
 
   return (
-    <Content>
+    <Content classes="w-fit flex flex-col items-center p-10">
       <h1 className="font-bold text-6xl">
         {artist ? "Update an artist" : "Add a new artist"}
       </h1>

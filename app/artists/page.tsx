@@ -7,8 +7,8 @@ export default async function Page() {
   const artists = await prisma.artist.findMany();
 
   return (
-    <Content>
-      <div className="flex items-center justify-between gap-20">
+    <Content classes="p-10 w-full max-w-[1700px] flex flex-wrap gap-8">
+      <div className="w-full flex items-center justify-between gap-20">
         <h1 className="font-bold text-6xl">List of Artists</h1>
         <Link href="/artists/save" className="p-3 shadow rounded-lg">
           Add new Artist
@@ -20,7 +20,7 @@ export default async function Page() {
           artists.map((artist) => (
             <div
               key={artist.id}
-              className="h-fit flex flex-col items-center gap-4"
+              className="rounded-xl p-5 h-fit flex flex-col items-center gap-4"
             >
               <div className="flex flex-col gap-3 self-start text-sm">
                 <Link
@@ -34,12 +34,19 @@ export default async function Page() {
                   <input type="hidden" name="id" value={artist.id} />
                 </form>
               </div>
-              <img
-                src={artist.profile_picture}
-                alt="Profile picture"
-                className="rounded-lg w-auto h-full max-h-[350px]"
-              />
-              <span className="text-lg">{artist.name}</span>
+
+              <Link
+                href={`/artists/${artist.id}`}
+                className="flex flex-col items-center gap-3"
+              >
+                <div
+                  style={{ backgroundImage: `url(${artist.profile_picture})` }}
+                  className="w-64 h-64 bg-cover bg-center rounded-full"
+                />
+                <span className="text-xl font-bold text-gray-600">
+                  {artist.name}
+                </span>
+              </Link>
             </div>
           ))
         ) : (

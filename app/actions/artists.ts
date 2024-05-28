@@ -42,3 +42,7 @@ export async function deleteArtist(form: FormData) {
     revalidatePath("/artists");
   }
 }
+
+export async function getAllArtists() {
+  return await prisma.artist.findMany();
+}

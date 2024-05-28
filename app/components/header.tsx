@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <div className="shadow bg-white w-full h-[70px] flex items-center">
+    <div className="sticky top-0 z-40 shadow bg-white w-full h-[70px] flex items-center">
       <div className="w-full max-w-5xl mx-auto flex justify-center items-center text-lg gap-14">
         <Link href="/" className="cursor-pointer hover:underline">
           Home

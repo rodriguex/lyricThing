@@ -14,7 +14,7 @@ model user {
   profile_picture String   @db.Text()
   email           String   @unique @db.VarChar(255)
   created_at      DateTime @default(now()) @db.Timestamp(6)
-  Lyric           lyric[]
+  lyric           lyric[]
 }
 
 model artist {
@@ -23,7 +23,7 @@ model artist {
   profile_picture String   @db.Text()
   about           String   @db.Text()
   created_at      DateTime @default(now()) @db.Timestamp(6)
-  Lyric           lyric[]
+  lyric           lyric[]
 }
 
 model lyric {
@@ -31,8 +31,9 @@ model lyric {
   song_name    String   @db.VarChar(255)
   released_at  DateTime @db.Date()
   lyrics       String   @db.Text()
+  youtube_link String
   artist_id    Int
-  Artist       artist   @relation(fields: [artist_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  artist       artist   @relation(fields: [artist_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   posted_by_id Int
   posted_by    user     @relation(fields: [posted_by_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   created_at   DateTime @default(now()) @db.Timestamp(6)

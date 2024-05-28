@@ -20,7 +20,7 @@ export default function SaveArtistForm({
   );
 
   const [isLoading, setIsLoading] = useState(false);
-  const isButtonBlocked = !artist.name || !artist.about || !artistPicture;
+  const isButtonBlocked = !artist.name || !artist.about || artistPicture === "";
 
   async function deletePhoto() {
     setIsLoading(true);
@@ -70,7 +70,11 @@ export default function SaveArtistForm({
         {artistPicture && (
           <div className="flex flex-col gap-1 mb-10">
             <span>Current profile picture</span>
-            <img src={artistPicture} className="w-48 rounded-lg" />
+            <img
+              src={artistPicture}
+              className="w-48 rounded-lg"
+              alt="Current Profile Picture"
+            />
             <span
               className="cursor-pointer text-sm text-red-700"
               onClick={deletePhoto}
@@ -92,6 +96,7 @@ export default function SaveArtistForm({
       <input type="hidden" name="url" value={artistPicture} />
 
       <button
+        disabled={isButtonBlocked ? true : false}
         className={`border-2 p-3 rounded-lg font-bold text-lg ${
           isButtonBlocked
             ? "bg-gray-100 border-gray-300 hover:bg-gray-100 text-gray-500 cursor-not-allowed"
