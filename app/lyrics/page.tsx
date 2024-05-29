@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Content from "../components/content";
 import prisma from "../utils/prisma";
-import ShowLyrics from "../components/show-lyrics";
+import ShowLyrics from "../components/lyrics/show-lyrics";
 
 export default async function Page() {
   const lyrics = await prisma.lyric.findMany({
@@ -19,6 +19,7 @@ export default async function Page() {
           Add new lyric
         </Link>
       </div>
+
       <ShowLyrics lyrics={lyrics} />
     </Content>
   );

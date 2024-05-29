@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Artist } from "../types";
-import { createArtist, deleteArtistPhoto } from "../actions/artists";
+import { Artist } from "@/app/types";
+import { createArtist, deleteArtistPhoto } from "./../../actions/artists";
 
 export default function SaveArtistForm({
   updatingArtist,

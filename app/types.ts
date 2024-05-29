@@ -40,3 +40,12 @@ export interface AllLyrics {
   artist: Artist;
   posted_by: User;
 }
+
+export interface ShowArtist {
+  id: number;
+  name: string;
+  profile_picture: string;
+  about: string;
+  created_at: string | Date;
+  lyric: Lyric[];
+}

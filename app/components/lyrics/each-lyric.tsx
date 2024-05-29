@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Lyric } from "../types";
-import { deleteLyric } from "../actions/lyrics";
+import { Lyric } from "@/app/types";
+import { deleteLyric } from "@/app/actions/lyrics";
 
 export default function EachLyric({ lyric }: { lyric: Lyric }) {
   return (
@@ -24,7 +24,6 @@ export default function EachLyric({ lyric }: { lyric: Lyric }) {
         />
         <div className="mt-2 flex flex-col items-center gap-1">
           <span className="font-bold text-lg">{`${lyric?.artist?.name} - ${lyric.song_name}`}</span>
-          <span>{lyric.released_at.toString()}</span>
         </div>
       </Link>
     </div>

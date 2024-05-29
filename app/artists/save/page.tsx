@@ -1,5 +1,5 @@
 import Content from "@/app/components/content";
-import SaveArtistForm from "@/app/components/save-artist-form";
+import SaveArtistForm from "@/app/components/lyrics/save-artist-form";
 import { Artist } from "@/app/types";
 import prisma from "@/app/utils/prisma";
 

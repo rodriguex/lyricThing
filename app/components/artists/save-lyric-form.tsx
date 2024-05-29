@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Artist, Lyric } from "../types";
-import { createLyric } from "../actions/lyrics";
+import { Artist, Lyric } from "./../../types";
+import { createLyric } from "@/app/actions/lyrics";
 
 export default function SaveLyricForm({
   updatingLyric,
