@@ -35,9 +35,16 @@ export async function createLyric(form: FormData) {
     });
   }
 
+  const splitted = releasedAt.split("-");
+
+  const daySet = new Date();
+  daySet.setFullYear(parseInt(splitted[0]));
+  daySet.setMonth(parseInt(splitted[1]) - 1);
+  daySet.setDate(parseInt(splitted[2]));
+
   const lyric = {
     song_name: songName,
-    released_at: new Date(releasedAt).toISOString(),
+    released_at: daySet,
     youtube_link: youtubeLink,
     lyrics,
     posted_by_id: getLoggedUserId?.id,

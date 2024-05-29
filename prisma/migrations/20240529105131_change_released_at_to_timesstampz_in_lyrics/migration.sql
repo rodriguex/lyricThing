@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "lyric" ALTER COLUMN "released_at" SET DATA TYPE TIMESTAMPTZ;

@@ -29,7 +29,7 @@ model artist {
 model lyric {
   id           Int      @id @default(autoincrement())
   song_name    String   @db.VarChar(255)
-  released_at  DateTime @db.Date()
+  released_at  DateTime @db.Timestamptz()
   lyrics       String   @db.Text()
   youtube_link String
   artist_id    Int
