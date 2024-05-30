@@ -33,14 +33,7 @@ export default function SaveArtistForm({
   }
 
   return (
-    <form
-      className="mt-10 flex flex-col gap-8 w-[500px]"
-      action={(formData: any) => {
-        setIsLoadingSaving(true);
-        createArtist(formData);
-        setIsLoadingSaving(false);
-      }}
-    >
+    <form className="mt-10 flex flex-col gap-8 w-[500px]" action={createArtist}>
       <div className="flex flex-col">
         <label htmlFor="name">Name of the Artist</label>
         <input

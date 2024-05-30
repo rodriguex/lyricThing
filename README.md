@@ -6,10 +6,14 @@
 - [x] Compress images before uploading
 - [x] Fix or change the upload image function
 - [x] Handle timezones
-- [ ] Artists profile page
+- [x] Artists profile page
 - [x] Lyrics page
-- [ ] Test Youtube API to see if we can track the current second of the video
-- [ ] If so, implemement the database and the function
+- [x] Test Youtube API to see if we can track the current second of the video
+- [x] Change database to suport that
+- [x] Add a 2 step lyric register part with preview tab with the current work made
 - [ ] Home page
-- [ ] Search Bar
+- [ ] Search Bar for stuffs
+- [ ] Comments section for lyrics
+- [ ] Like/Dislike button for lyrics
+- [ ] Admin to block pages and functions
 - [ ] Layout/Responsiveness

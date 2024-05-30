@@ -14,7 +14,6 @@ export default function SaveLyricForm({
   const [lyric, setLyric] = useState<Lyric>({
     song_name: updatingLyric?.song_name ?? "",
     released_at: updatingLyric?.released_at ?? "",
-    lyrics: updatingLyric?.lyrics ?? "",
     youtube_link: updatingLyric?.youtube_link ?? "",
   });
 
@@ -25,8 +24,8 @@ export default function SaveLyricForm({
   const isButtonBlocked =
     !lyric.song_name ||
     !lyric.released_at ||
-    !lyric.lyrics ||
-    !lyric.youtube_link;
+    !lyric.youtube_link ||
+    !selectedArtist;
 
   return (
     <form className="mt-10 flex flex-col gap-8 w-[500px]" action={createLyric}>
@@ -85,20 +84,6 @@ export default function SaveLyricForm({
               </option>
             ))}
         </select>
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="lyrics">Lyrics of the Song</label>
-        <textarea
-          required
-          id="lyrics"
-          name="lyrics"
-          className="border shadow p-3 rounded"
-          placeholder="De manhã, até tarde, até tarde..."
-          rows={20}
-          value={lyric.lyrics}
-          onChange={(e) => setLyric({ ...lyric, lyrics: e.target.value })}
-        />
       </div>
 
       <input type="hidden" name="id" value={updatingLyric?.id} />

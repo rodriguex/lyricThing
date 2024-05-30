@@ -1,14 +1,13 @@
 import Content from "@/app/components/content";
 import DynamicDateFormat from "@/app/components/lyrics/dynamicDateFormat";
-import { Lyric } from "@/app/types";
-import { formatDate } from "@/app/utils/helpers";
+import SyncedLyrics from "@/app/components/lyrics/synced-lyrics";
 import prisma from "@/app/utils/prisma";
 import Link from "next/link";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
 
-  let lyric: Lyric | null = null;
+  let lyric: any = null;
   if (id) {
     lyric = await prisma.lyric.findFirst({
       where: { id: parseInt(id) },
@@ -20,7 +19,10 @@ export default async function Page({ params }: { params: { id: string } }) {
     return;
   }
 
-  const videoId = lyric.youtube_link.split("v=")[1].split("&")[0];
+  const verses = await prisma.timedVerse.findMany({
+    where: { lyric_id: lyric.id },
+    orderBy: { id: "asc" },
+  });
 
   return (
     <Content classes="p-10 w-full max-w-[1700px]">
@@ -45,18 +47,16 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
           <DynamicDateFormat classes="mt-3" date={lyric.released_at as Date} />
           <span>{`Posted by: ${lyric.posted_by?.first_name} ${lyric.posted_by?.last_name}`}</span>
+          <Link
+            className="block mt-3 font-bold border-2 border-black p-2 rounded w-[150px] text-center"
+            href={`/lyrics/save/verses/${lyric.id}`}
+          >
+            Edit Verses
+          </Link>
         </div>
       </div>
 
-      <div className="flex justify-between">
-        <p className="mt-20 ml-4 text-lg whitespace-pre-line">{lyric.lyrics}</p>
-        <iframe
-          className="mt-10 rounded-lg sticky top-[100px]"
-          src={`https://www.youtube.com/embed/${videoId}`}
-          width="500"
-          height="300"
-        />
-      </div>
+      <SyncedLyrics verses={verses} song={lyric} />
     </Content>
   );
 }

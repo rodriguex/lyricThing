@@ -10,6 +10,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
+import { File } from "buffer";
 
 const client = new S3Client({ region: "us-east-2" });
 
@@ -31,7 +32,7 @@ export async function createArtist(formData: FormData) {
 
   let fileName = currentProfilePicture ?? "";
   if (file) {
-    fileName = await uploadFile(file);
+    fileName = await uploadFile(file as unknown as File);
   }
 
   if (fileName) {
@@ -54,7 +55,7 @@ export async function createArtist(formData: FormData) {
   }
 }
 
-async function uploadFile(file: any) {
+async function uploadFile(file: File) {
   const imgToArrayBuffer = await file.arrayBuffer();
   const imgBuffer = Buffer.from(imgToArrayBuffer);
 

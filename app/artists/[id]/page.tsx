@@ -11,7 +11,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   if (id) {
     artist = await prisma.artist.findFirst({
       where: { id: parseInt(id) },
-      include: { lyric: { include: { posted_by: true } } },
+      include: { lyrics: { include: { posted_by: true } } },
     });
   }
 
@@ -37,8 +37,8 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div className="mt-20 ml-6">
         <h2 className="font-bold text-4xl">Lyrics</h2>
         <div className="mt-8 flex flex-wrap gap-10">
-          {artist.lyric.length ? (
-            artist.lyric.map((lyric) => (
+          {artist.lyrics.length ? (
+            artist.lyrics.map((lyric) => (
               <Link
                 href={`/lyrics/${lyric.id}`}
                 key={lyric.id}
@@ -53,7 +53,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="flex flex-col gap-5">
               <span>This artist has no lyrics yet :(</span>
               <Link
-                href="/artists/save"
+                href="/lyrics/save"
                 className="font-bold text-xl border-2 border-black p-3 rounded"
               >
                 Be the first one to add a lyric here

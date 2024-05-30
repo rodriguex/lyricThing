@@ -16,8 +16,8 @@ export interface Artist {
 export interface Lyric {
   id?: number;
   song_name: string;
+  lyrics?: string;
   released_at: Date | string;
-  lyrics: string;
   artist_id?: number;
   posted_by_id?: number;
   created_at?: Date | string;
@@ -30,8 +30,8 @@ export interface Lyric {
 export interface AllLyrics {
   id: number;
   song_name: string;
-  released_at: Date | string;
   lyrics: string;
+  released_at: Date | string;
   artist_id: number;
   posted_by_id: number;
   created_at: Date | string;
@@ -47,5 +47,14 @@ export interface ShowArtist {
   profile_picture: string;
   about: string;
   created_at: string | Date;
-  lyric: Lyric[];
+  lyrics: Lyric[];
+}
+
+export interface TimedVerse {
+  id?: number;
+  lyric_id: number;
+  verse: string;
+  start: number | string;
+  end: number | string;
+  lyric?: AllLyrics;
 }

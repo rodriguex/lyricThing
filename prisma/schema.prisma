@@ -14,7 +14,7 @@ model user {
   profile_picture String   @db.Text()
   email           String   @unique @db.VarChar(255)
   created_at      DateTime @default(now()) @db.Timestamp(6)
-  lyric           lyric[]
+  lyrics          lyric[]
 }
 
 model artist {
@@ -23,19 +23,29 @@ model artist {
   profile_picture String   @db.Text()
   about           String   @db.Text()
   created_at      DateTime @default(now()) @db.Timestamp(6)
-  lyric           lyric[]
+  lyrics          lyric[]
 }
 
 model lyric {
-  id           Int      @id @default(autoincrement())
-  song_name    String   @db.VarChar(255)
-  released_at  DateTime @db.Timestamptz()
-  lyrics       String   @db.Text()
+  id           Int          @id @default(autoincrement())
+  song_name    String       @db.VarChar(255)
+  released_at  DateTime     @db.Timestamptz()
   youtube_link String
   artist_id    Int
-  artist       artist   @relation(fields: [artist_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  artist       artist       @relation(fields: [artist_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  lyrics       String?      @db.Text()
   posted_by_id Int
-  posted_by    user     @relation(fields: [posted_by_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  created_at   DateTime @default(now()) @db.Timestamp(6)
-  updated_at   DateTime @default(now()) @db.Timestamp(6)
+  posted_by    user         @relation(fields: [posted_by_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  created_at   DateTime     @default(now()) @db.Timestamp(6)
+  updated_at   DateTime     @default(now()) @db.Timestamp(6)
+  timedVerse   timedVerse[]
+}
+
+model timedVerse {
+  id       Int    @id @default(autoincrement())
+  lyric_id Int
+  song     lyric  @relation(fields: [lyric_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  verse    String @db.Text()
+  start    Float  @db.DoublePrecision()
+  end      Float  @db.DoublePrecision()
 }

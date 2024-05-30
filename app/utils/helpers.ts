@@ -1,5 +1,5 @@
 export function formatDate(date: Date) {
-  const userLanguage = window.navigator.language;
+  const userLanguage = global?.window?.navigator?.language;
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   return new Intl.DateTimeFormat(userLanguage, {

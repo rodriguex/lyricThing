@@ -3,7 +3,6 @@
 import { redirect } from "next/navigation";
 import prisma from "../utils/prisma";
 import { revalidatePath } from "next/cache";
-import { Lyric } from "../types";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
 export async function createLyric(form: FormData) {
@@ -25,10 +24,9 @@ export async function createLyric(form: FormData) {
   const songName = form.get("songName") as string;
   const releasedAt = form.get("releasedAt") as string;
   const youtubeLink = form.get("youtubeLink") as string;
-  const lyrics = form.get("lyrics") as string;
   const artistId = form.get("artist") as string;
 
-  let getLyric: Lyric | null = null;
+  let getLyric: any = null;
   if (lyricId) {
     getLyric = await prisma.lyric.findFirst({
       where: { id: parseInt(lyricId) },
@@ -46,21 +44,23 @@ export async function createLyric(form: FormData) {
     song_name: songName,
     released_at: daySet,
     youtube_link: youtubeLink,
-    lyrics,
     posted_by_id: getLoggedUserId?.id,
     artist_id: parseInt(artistId),
   };
 
+  let newLyricId = null;
   if (!getLyric) {
-    await prisma.lyric.create({ data: lyric });
+    const response = await prisma.lyric.create({ data: lyric });
+    newLyricId = response.id;
   } else {
-    await prisma.lyric.update({
+    const response = await prisma.lyric.update({
       data: lyric,
       where: { id: parseInt(lyricId) },
     });
+    newLyricId = response.id;
   }
 
-  redirect("/lyrics");
+  redirect(`/lyrics/save/verses/${newLyricId}`);
 }
 
 export async function deleteLyric(form: FormData) {
@@ -71,4 +71,8 @@ export async function deleteLyric(form: FormData) {
     await prisma.lyric.delete({ where: { id: parseInt(id) } });
     revalidatePath("/lyrics");
   }
+}
+
+export async function updateLyrics(id: number, lyrics: string) {
+  await prisma.lyric.update({ where: { id }, data: { lyrics } });
 }

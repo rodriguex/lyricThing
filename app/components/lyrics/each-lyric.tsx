@@ -23,7 +23,7 @@ export default function EachLyric({ lyric }: { lyric: Lyric }) {
           className="w-48 h-48 bg-cover bg-center rounded-full"
         />
         <div className="mt-2 flex flex-col items-center gap-1">
-          <span className="font-bold text-lg">{`${lyric?.artist?.name} - ${lyric.song_name}`}</span>
+          <span className="text-lg">{`${lyric?.artist?.name} - ${lyric.song_name}`}</span>
         </div>
       </Link>
     </div>
